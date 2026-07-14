@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "worldtrigger",
+  "key": {
+    "A": "minecraft:diamond",
+    "B": "minecraft:redstone"
+  },
+  "pattern": [
+    "A  ",
+    " B ",
+    "  A"
+  ],
+  "result": {
+    "id": "wtmod:trigger"
+  }
+}

@@ -3,6 +3,7 @@ package com.JSUSHDX.WorldTriggerMod;
 import com.JSUSHDX.WorldTriggerMod.blocks.ModBlocks;
 import com.JSUSHDX.WorldTriggerMod.creativemodetab.ModCreativeModTabs;
 import com.JSUSHDX.WorldTriggerMod.data.ModDataComponents;
+import com.JSUSHDX.WorldTriggerMod.entity.ModEntities;
 import com.JSUSHDX.WorldTriggerMod.item.ModItems;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
@@ -39,6 +40,9 @@ public class WorldTriggerMod {
         NeoForge.EVENT_BUS.register(this);
 
         ModCreativeModTabs.register(modEventBus);
+
+        ModEntities.register(modEventBus);
+        modEventBus.addListener(com.JSUSHDX.WorldTriggerMod.event.ClientModEvents::registerRenderers);
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);

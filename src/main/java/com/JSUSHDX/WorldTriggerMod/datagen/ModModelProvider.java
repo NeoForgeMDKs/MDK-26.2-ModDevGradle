@@ -17,6 +17,7 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         itemModels.generateFlatItem(ModItems.TRIGGER.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.SHIELD_TRIGGER.get(), ModelTemplates.FLAT_ITEM);
 
         // BLOCKS
         blockModels.createTrivialCube(ModBlocks.ASSEMBLY_BENCH.get());

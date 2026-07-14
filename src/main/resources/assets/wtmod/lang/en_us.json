@@ -1,7 +1,12 @@
 {
   "item.wtmod.trigger": "Trigger",
+  "item.wtmod.shield_trigger": "Shield",
 
   "block.wtmod.assembly_bench": "Assembly bench",
 
-  "creativetab.wtmod.wt_items": "World Trigger"
+  "creativetab.wtmod.wt_items": "World Trigger",
+
+  "tooltip.wtmod.is_on": "Status: %s",
+  "message.wtmod.status_on": "%1$s on",
+  "message.wtmod.status_off": "%1$s off"
 }

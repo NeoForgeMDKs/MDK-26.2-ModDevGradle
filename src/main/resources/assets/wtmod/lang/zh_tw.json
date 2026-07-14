@@ -1,7 +1,12 @@
 {
   "item.wtmod.trigger": "觸發",
+  "item.wtmod.shield_trigger": "盾",
 
   "block.wtmod.assembly_bench": "裝配台",
 
-  "creativetab.wtmod.wt_items": "境界觸發者"
+  "creativetab.wtmod.wt_items": "境界觸發者",
+
+  "tooltip.wtmod.is_on": "狀態: %s",
+  "message.wtmod.status_on": "啟動 %1$s",
+  "message.wtmod.status_off": "關閉 %1$s"
 }

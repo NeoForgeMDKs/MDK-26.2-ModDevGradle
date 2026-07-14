@@ -1,6 +1,7 @@
 package com.JSUSHDX.WorldTriggerMod.item;
 
 import com.JSUSHDX.WorldTriggerMod.WorldTriggerMod;
+import com.JSUSHDX.WorldTriggerMod.item.custom.AsteroidTriggerItem;
 import com.JSUSHDX.WorldTriggerMod.item.custom.ShieldTriggerItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -14,6 +15,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> SHIELD_TRIGGER = ITEMS.registerItem("shield_trigger",
             properties -> new ShieldTriggerItem(properties.useCooldown(1.0f)));
+
+    public static final DeferredItem<Item> ASTEROID_TRIGGER = ITEMS.registerItem("asteroid_trigger",
+            properties -> new AsteroidTriggerItem(properties.useCooldown(1.0f)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

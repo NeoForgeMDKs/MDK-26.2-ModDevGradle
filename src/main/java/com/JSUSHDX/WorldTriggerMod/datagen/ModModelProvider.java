@@ -19,6 +19,7 @@ public class ModModelProvider extends ModelProvider {
         // Items
         itemModels.generateFlatItem(ModItems.TRIGGER.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.SHIELD_TRIGGER.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.ASTEROID_TRIGGER.get(), ModelTemplates.FLAT_ITEM);
 
         // BLOCKS
         blockModels.createTrivialCube(ModBlocks.ASSEMBLY_BENCH.get());

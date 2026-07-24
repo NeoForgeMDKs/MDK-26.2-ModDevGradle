@@ -191,172 +191,24 @@ idea {
     }
 }
 
-tasks.register('findClasses') {
+tasks.register('reflectScreen') {
+    def cpFiles = project.configurations.compileClasspath.files
     doLast {
-        println 'Searching for RenderType...'
-        project.configurations.compileClasspath.each { file ->
-            if (file.name.endsWith('.jar')) {
-                def zip = new java.util.zip.ZipFile(file)
-                zip.entries().each { entry ->
-                    if (entry.name.endsWith('RenderType.class') || entry.name.endsWith('MultiBufferSource.class')) {
-                        println 'Found: ' + entry.name
-                    }
-                }
+        try {
+            def urls = cpFiles.collect { it.toURI().toURL() } as java.net.URL[]
+            def cl = new java.net.URLClassLoader(urls, null)
+            def cls = Class.forName('net.minecraft.client.gui.screens.Screen', false, cl)
+            println 'Screen render methods:'
+            cls.getMethods().findAll { it.name.startsWith('render') }.each { m ->
+                println m.name + "(" + m.getParameterTypes().collect { it.name }.join(', ') + ")"
             }
-        }
-    }
-}
-
-
-tasks.register('reflectMethods') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.entity.EntityRenderer', false, cl)
-            println 'Methods of EntityRenderer:'
-            cls.getDeclaredMethods().each { println it }
-        } catch(Exception e) { e.printStackTrace() }
-    }
-}
-
-
-tasks.register('reflectArrowMethods') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.entity.ArrowRenderer', false, cl)
-            println 'Methods of ArrowRenderer:'
-            cls.getDeclaredMethods().each { println it }
-        } catch(Exception e) { e.printStackTrace() }
-    }
-}
-
-
-tasks.register('reflectCollector') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.SubmitNodeCollector', false, cl)
-            println 'Methods of SubmitNodeCollector:'
-            cls.getDeclaredMethods().each { println it }
-        } catch(Exception e) { e.printStackTrace() }
-    }
-}
-
-
-tasks.register('reflectOrderedCollector') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.MultiBufferSource', false, cl)
-            println 'Methods of MultiBufferSource:'
-            cls.getDeclaredMethods().each { println it }
-        } catch(Exception e) { println 'MultiBufferSource not found' }
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls2 = Class.forName('net.minecraft.client.renderer.MultiBufferSource$BufferSource', false, cl)
-            println 'Methods of BufferSource:'
-            cls2.getDeclaredMethods().each { println it }
-        } catch(Exception e) { println 'BufferSource not found' }
-    }
-}
-
-
-tasks.register('reflectNodeCollector') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.OrderedSubmitNodeCollector', false, cl)
-            println 'Methods of OrderedSubmitNodeCollector:'
-            cls.getDeclaredMethods().each { println it }
-        } catch(Exception e) { println 'OrderedSubmitNodeCollector not found' }
-    }
-}
-
-
-tasks.register('reflectCustomGeometry') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.SubmitNodeCollector$CustomGeometryRenderer', false, cl)
-            println 'Methods of CustomGeometryRenderer:'
-            cls.getDeclaredMethods().each { println it }
-        } catch(Exception e) { println 'CustomGeometryRenderer not found' }
-    }
-}
-
-
-tasks.register('javapArrow') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def is = cl.getResourceAsStream('net/minecraft/client/renderer/entity/ArrowRenderer.class')
-            new File('ArrowRenderer.class').withOutputStream { it << is }
-        } catch(Exception e) { e.printStackTrace() }
-    }
-}
-
-
-tasks.register('reflectRenderType') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.rendertype.RenderType', false, cl)
-            println 'Methods of RenderType:'
-            cls.getDeclaredMethods().each { println it.name }
-        } catch(Exception e) { e.printStackTrace() }
-    }
-}
-
-
-tasks.register('reflectRenderTypeFields') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            def cls = Class.forName('net.minecraft.client.renderer.rendertype.RenderType', false, cl)
-            println 'Fields of RenderType:'
-            cls.getDeclaredFields().each { println it.name }
-        } catch(Exception e) { e.printStackTrace() }
-    }
-}
-
-
-tasks.register('findTranslucent') {
-    doLast {
-        try {
-            def urls = project.configurations.compileClasspath.files.collect { it.toURI().toURL() } as java.net.URL[]
-            def cl = new java.net.URLClassLoader(urls, null)
-            project.configurations.compileClasspath.each { file ->
-                if (file.name.endsWith('.jar')) {
-                    def zip = new java.util.zip.ZipFile(file)
-                    zip.entries().each { entry ->
-                        if (entry.name.endsWith('.class') && !entry.name.contains('$')) {
-                            def cName = entry.name.replace('/', '.').replace('.class', '')
-                            if (cName.startsWith('net.minecraft.client.renderer')) {
-                                try {
-                                    def c = Class.forName(cName, false, cl)
-                                    c.getDeclaredMethods().each { m ->
-                                        if (m.name == 'entityTranslucentCull' || m.name == 'entityTranslucent') {
-                                            println 'Found in: ' + cName
-                                        }
-                                    }
-                                } catch(Throwable t) {}
-                            }
-                        }
-                    }
-                }
+            println 'Renderable render methods:'
+            def renderable = Class.forName('net.minecraft.client.gui.components.Renderable', false, cl)
+            renderable.getMethods().findAll { it.name.startsWith('render') }.each { m ->
+                println m.name + "(" + m.getParameterTypes().collect { it.name }.join(', ') + ")"
             }
         } catch(Exception e) { e.printStackTrace() }
     }
 }
+
 
